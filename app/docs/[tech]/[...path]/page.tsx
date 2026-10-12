@@ -8,6 +8,29 @@ import { renderDoc } from "@/lib/render";
 import { docHref } from "@/lib/url";
 
 export const revalidate = 86400;
+export const dynamicParams = true; // technologies NOT in the static list still render on-demand via ISR
+
+// The technologies worth pre-building at deploy time. Start small and
+// expand gradually — each one adds build time, proportional to how many
+// pages it has.
+const POPULAR_TECHS = [
+  "javascript", "python", "react", "typescript", "java", "css",
+  "html", "node", "go", "php", "git", "mysql",
+];
+
+export async function generateStaticParams() {
+  const out: { tech: string; path: string[] }[] = [];
+  for (const tech of POPULAR_TECHS) {
+    try {
+      const pages = pageList(await getIndex(tech));
+      for (const p of pages) out.push({ tech, path: p.path.split("/") });
+    } catch {
+      // If a tech's index fails to fetch at build time, skip it —
+      // it'll still work fine as an on-demand ISR page.
+    }
+  }
+  return out;
+}
 
 type Props = { params: Promise<{ tech: string; path: string[] }> };
 const toPath = (segs: string[]) => segs.map(decodeURIComponent).join("/");
@@ -22,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!entry) return { title: tName };
     return {
       title: `${entry.name} — ${tName}`,
-      description: `${entry.name}: ${tName} documentation, section “${entry.type}”.`,
+      description: `${entry.name}: ${tName} documentation, section "${entry.type}".`,
       alternates: { canonical: docHref(tech, p) },
     };
   } catch { return { title: tech }; }
@@ -60,6 +83,6 @@ export default async function DocPage({ params }: Props) {
     );
   } catch (e) {
     if (e instanceof DocsError && e.status === 404) notFound();
-    return <ErrorState title="Couldn’t load this page" message={(e as Error).message} href={docHref(tech, path)} />;
+    return <ErrorState title="Couldn't load this page" message={(e as Error).message} href={docHref(tech, path)} />;
   }
 }
