@@ -25,10 +25,10 @@ export default function SiteHeader({ techs, extraAction }: { techs: TechLite[]; 
       <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-line bg-bg px-4">
         <Brand />
         <nav className="ml-6 hidden items-center gap-5 sm:flex">
-          <Link href="/blog" className="text-sm text-muted transition-colors hover:text-ink">Blog</Link>
-          <Link href="/docs" className="text-sm text-muted transition-colors hover:text-ink">Docs</Link>
-          <Link href="/cheatsheets" className="text-sm text-muted transition-colors hover:text-ink">Cheat Sheets</Link>
-          <Link href="/compare" className="text-sm text-muted transition-colors hover:text-ink">Compare</Link>
+           <Link href="/docs" prefetch={false} className="text-sm text-muted transition-colors hover:text-ink">Docs</Link>
+           <Link href="/cheatsheets" prefetch={false} className="text-sm text-muted transition-colors hover:text-ink">Cheat Sheets</Link>
+           <Link href="/compare" prefetch={false} className="text-sm text-muted transition-colors hover:text-ink">Compare</Link>
+           <Link href="/blog" prefetch={false} className="text-sm text-muted transition-colors hover:text-ink">Blog</Link>
         </nav>
         <div className="ml-auto flex items-center gap-3">
           {extraAction}
