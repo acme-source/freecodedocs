@@ -81,7 +81,7 @@ export default async function Home() {
               <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">Every developer doc.<br />One calm place.</h1>
               <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted">FreeCodeDocs brings documentation for hundreds of languages, frameworks and libraries into one fast, searchable reader. It’s free, with no accounts and no clutter.</p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link href="/docs" className="group inline-flex h-11 items-center gap-2 rounded-md bg-ink px-5 text-sm font-medium text-bg transition-colors hover:bg-accent">
+                <Link href="/docs" prefetch={false} className="group inline-flex h-11 items-center gap-2 rounded-md bg-ink px-5 text-sm font-medium text-bg transition-colors hover:bg-accent">
                   Browse documentation <Icon name="arrow" size={16} className="transition-transform group-hover:translate-x-0.5" />
                 </Link>
                 <a href="#how" className="inline-flex h-11 items-center rounded-md border border-line px-5 text-sm font-medium transition-colors hover:border-accent hover:text-accent">How it works</a>
@@ -148,9 +148,9 @@ export default async function Home() {
           <Reveal className="mx-auto max-w-6xl rounded-xl bg-ink px-6 py-14 text-center text-bg sm:px-10">
             <h2 className="mx-auto max-w-lg text-2xl font-semibold tracking-tight sm:text-3xl">Start reading in seconds.</h2>
             <p className="mx-auto mt-3 max-w-md text-sm text-bg/70">Open the library, pick a framework, and get to the page you need.</p>
-            <Link href="/docs" className="group mt-7 inline-flex h-11 items-center gap-2 rounded-md bg-bg px-5 text-sm font-medium text-ink transition-transform hover:-translate-y-0.5">
-              Open the library <Icon name="arrow" size={16} className="transition-transform group-hover:translate-x-0.5" />
-            </Link>
+           <Link href="/docs" prefetch={false} className="group mt-7 inline-flex h-11 items-center gap-2 rounded-md bg-bg px-5 text-sm font-medium text-ink transition-transform hover:-translate-y-0.5">
+             Open the library <Icon name="arrow" size={16} className="transition-transform group-hover:translate-x-0.5" />
+           </Link>
           </Reveal>
         </section>
       </main>
