@@ -8,25 +8,23 @@ import { renderDoc } from "@/lib/render";
 import { docHref } from "@/lib/url";
 
 export const revalidate = 86400;
-export const dynamicParams = true; // technologies NOT in the static list still render on-demand via ISR
 
-// The technologies worth pre-building at deploy time. Start small and
-// expand gradually — each one adds build time, proportional to how many
-// pages it has.
+export const dynamicParams = true;
+
 const POPULAR_TECHS = [
-  "javascript", "python", "react", "typescript", "java", "css",
+  "python", "react", "typescript", "java", "css",
   "html", "node", "go", "php", "git", "mysql",
 ];
+const MAX_PAGES_PER_TECH = 40;
 
 export async function generateStaticParams() {
   const out: { tech: string; path: string[] }[] = [];
   for (const tech of POPULAR_TECHS) {
     try {
-      const pages = pageList(await getIndex(tech));
+      const pages = pageList(await getIndex(tech)).slice(0, MAX_PAGES_PER_TECH);
       for (const p of pages) out.push({ tech, path: p.path.split("/") });
     } catch {
-      // If a tech's index fails to fetch at build time, skip it —
-      // it'll still work fine as an on-demand ISR page.
+      // Skipped at build time; still works fine as an on-demand ISR page.
     }
   }
   return out;
